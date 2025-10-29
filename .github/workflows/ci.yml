@@ -25,7 +25,8 @@ jobs:
     env:
       PYTHONUNBUFFERED: "1"
       MPLBACKEND: Agg
-      CI: "1"               
+      CI: "1"  # reduced config for smoke test
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,11 +42,13 @@ jobs:
           set -euo pipefail
           python -m pip install --upgrade pip wheel setuptools
           pip install -r requirements.txt
+          pip install pytest
 
       - name: Unit tests (quick)
+        if: ${{ hashFiles('tests/**/*.py') != '' }}
         run: |
           set -euo pipefail
-          pytest -q
+          pytest -q --maxfail=1
 
       - name: Run full pipeline (smoke)
         run: |

@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: "1"
+      MPLBACKEND: Agg
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          pip install -r requirements.txt
+
+      - name: Run full pipeline
+        run: |
+          make run-all
+
+      - name: Upload figures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: figures-${{ github.run_id }}
+          path: reports/figures/
+          if-no-files-found: warn
+
+      - name: Upload metrics and predictions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ github.run_id }}
+          path: |
+            artifacts/metrics.json
+            artifacts/predictions.csv
+            reports/metrics_summary.csv
+            reports/lift_by_decile.csv
+            reports/fairness_age_group.csv
+            reports/shap_top_features.csv
+          if-no-files-found: warn

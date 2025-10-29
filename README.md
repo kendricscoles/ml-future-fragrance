@@ -80,6 +80,7 @@ Die Pipeline kann in jeder Python-3.11-Umgebung ausgeführt werden:
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+pip install pytest
 
 # Daten generieren
 python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv

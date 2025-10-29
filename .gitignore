@@ -121,6 +121,15 @@ __marimo__/
 !/reports/figures/shap_summary_bar.png
 !/reports/figures/shap_summary_beeswarm.png
 
+artifacts/**
+reports/**/*.png
+reports/*_by_*.csv
+reports/metrics_summary.csv
+reports/fairness_age_group.csv
+reports/shap_top_features.csv
+data/*.csv
+.venv/
+
 # ----------------------------------------------------------
 # NOTES
 # ----------------------------------------------------------

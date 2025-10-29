@@ -1,25 +1,12 @@
-PY=python
-
-# Generate synthetic data
-run-data:
-	$(PY) src/data_prep.py
-
-# Train model and save artifact
-run-train:
-	$(PY) src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
-
-# Make predictions using trained model
-run-predict:
-	$(PY) src/make_predictions.py --data data/fragrance_data.csv --out artifacts/predictions.csv
-
-# Evaluate model performance
-run-eval:
-	$(PY) src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
-
-# Generate figures (ROC, PR, Lift, SHAP)
-run-figs:
-	$(PY) src/generate_pngs.py
-
-# Run full pipeline end-to-end
-run-all: run-data run-train run-predict run-eval run-figs
-	@echo "Full ML pipeline executed successfully!"
+# Makefile
+run-all:
+ifeq ($(CI),1)
+	python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
+	python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb --ci-mode 1
+else
+	python src/data_prep.py --rows 20000 --seed 42 --out data/fragrance_data.csv
+	python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
+endif
+	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions.csv
+	python src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
+	python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/figures

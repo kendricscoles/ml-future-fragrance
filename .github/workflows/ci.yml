@@ -47,6 +47,8 @@ jobs:
 
       - name: Unit tests (quick)
         if: ${{ hashFiles('tests/**/*.py') != '' }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           set -euo pipefail
           pytest -q --maxfail=1

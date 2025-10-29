@@ -208,6 +208,13 @@ Der Workflow installiert alle Abhängigkeiten, generiert **synthetische Daten**,
 
 Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
 
+---
+
+### Fairness
+Bewertet werden Selection Rate, TPR und PPV je Altersgruppe bei einem operativen Cutoff (Top 10 %). Wir berichten Gaps:
+- reports/fairness_age_group.csv
+- reports/figures/fairness_age.png
+Interpretation: Gaps < 0.05 gelten in diesem Setting als unkritisch.
 
 ---
 

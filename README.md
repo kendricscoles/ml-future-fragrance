@@ -148,7 +148,7 @@ Die wichtigsten Merkmale laut SHAP-Analyse:
     "random_state": 42
   }
 }
-
+```
 ---
 
 ### Operative Bedeutung des Lift

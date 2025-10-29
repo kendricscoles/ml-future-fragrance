@@ -1,7 +1,7 @@
 run-all:
 ifeq ($(CI),1)
 	python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
-	python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb --ci-mode 1
+	python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb --ci-mode
 else
 	python src/data_prep.py --rows 20000 --seed 42 --out data/fragrance_data.csv
 	python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb

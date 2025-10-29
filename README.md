@@ -21,10 +21,10 @@ Das Projekt zeigt, wie Machine Learning im Marketing eingesetzt werden kann, um 
 
 ---
 
-## Projektstruktur
+## Repository Structure
 
 ```
-### Repository Structure
+
 .github/workflows/      # CI pipeline (smoke test on each push)
 artifacts/              # Placeholder model outputs (for grading)
 ├── champion_model.pkl

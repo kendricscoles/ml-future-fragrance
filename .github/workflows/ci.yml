@@ -25,7 +25,7 @@ jobs:
     env:
       PYTHONUNBUFFERED: "1"
       MPLBACKEND: Agg
-      CI: "1"  # reduced config for smoke test
+      CI: "1"  
 
     steps:
       - name: Checkout repository
@@ -43,6 +43,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           pip install -r requirements.txt
           pip install pytest
+          pip install -r requirements-dev.txt
 
       - name: Unit tests (quick)
         if: ${{ hashFiles('tests/**/*.py') != '' }}

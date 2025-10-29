@@ -58,6 +58,10 @@ src/                    # Source code for data prep, training, evaluation
 ├── score.py
 ├── train_tune.py
 └── train.py
+tests/
+├── conftest.py
+├── test_data_prep.py
+└── test_metrics.py
 config.yaml             # Central configuration (seed, paths, model params)
 requirements.txt       
 Makefile              

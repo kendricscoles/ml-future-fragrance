@@ -3,8 +3,16 @@ name: CI
 on:
   push:
     branches: ["**"]
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - "**.png"
+      - "**.pdf"
   pull_request:
     branches: ["**"]
+
+permissions:
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -13,10 +21,11 @@ concurrency:
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       PYTHONUNBUFFERED: "1"
       MPLBACKEND: Agg
-
+      CI: "1"               
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,11 +38,18 @@ jobs:
 
       - name: Install dependencies
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip wheel setuptools
           pip install -r requirements.txt
 
-      - name: Run full pipeline
+      - name: Unit tests (quick)
         run: |
+          set -euo pipefail
+          pytest -q
+
+      - name: Run full pipeline (smoke)
+        run: |
+          set -euo pipefail
           make run-all
 
       - name: Upload figures
@@ -43,6 +59,7 @@ jobs:
           name: figures-${{ github.run_id }}
           path: reports/figures/
           if-no-files-found: warn
+          retention-days: 30
 
       - name: Upload metrics and predictions
         if: always()
@@ -57,3 +74,17 @@ jobs:
             reports/fairness_age_group.csv
             reports/shap_top_features.csv
           if-no-files-found: warn
+          retention-days: 30
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Smoke Summary" >> $GITHUB_STEP_SUMMARY
+          if [ -f artifacts/metrics.json ]; then
+            echo '' >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat artifacts/metrics.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- No metrics.json produced." >> $GITHUB_STEP_SUMMARY
+          fi

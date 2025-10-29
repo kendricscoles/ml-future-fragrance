@@ -132,6 +132,31 @@ Die wichtigsten Merkmale laut SHAP-Analyse:
 
 ---
 
+### Metrics JSON schema
+```md
+## Metrics JSON (Schema + Example)
+```json
+{
+  "test": {
+    "auc": 0.8997,
+    "pr_auc": 0.8547,
+    "lift_at_10": 4.12
+  },
+  "train_config": {
+    "estimator": "xgb",
+    "n_estimators": 600,
+    "random_state": 42
+  }
+}
+
+---
+
+### Operative Bedeutung des Lift
+## Was „Lift@10% = 4.12×“ bedeutet
+Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen gilt, erreicht man etwa **41 % aller tatsächlichen Käufer:innen** – also rund das **Vierfache der Trefferquote** einer zufälligen Auswahl mit demselben Budget.
+
+---
+
 ### Baselines & Kalibrierung
 - **Dummy Classifier (AUC ≈ 0.50)** → Referenz-Zufallsniveau  
 - **Logistische Regression (AUC ≈ 0.78)** → Klassische Baseline  

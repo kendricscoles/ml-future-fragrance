@@ -1,4 +1,3 @@
-# Makefile
 run-all:
 ifeq ($(CI),1)
 	python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv

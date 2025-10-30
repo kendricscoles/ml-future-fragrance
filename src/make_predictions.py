@@ -20,7 +20,7 @@ def main():
     p.add_argument("--model", default=str(Path(cfg.paths.out_dir) / "champion_model.pkl"))
     p.add_argument("--out", default=str(Path(cfg.paths.out_dir) / "predictions.csv"))
     p.add_argument("--target", default="bought_fragrance")
-    p.add_argument("--index", default="")  # optional: artifacts/test_index.csv
+    p.add_argument("--index", default="")
     args = p.parse_args()
 
     df = pd.read_csv(args.data)
@@ -49,6 +49,7 @@ def main():
         y_score = pipe.predict(X)
 
     out = pd.DataFrame({"row_id": df["row_id"].values, "y_score": y_score})
+    out["y_proba"] = out["y_score"]
     if y_true is not None:
         out["y_true"] = y_true
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)

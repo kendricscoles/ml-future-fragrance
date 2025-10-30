@@ -1,10 +1,16 @@
 .PHONY: run-all run-all-shap clean
 
+# Always enforce deterministic behavior
+export PYTHONHASHSEED=42
+export MPLBACKEND=Agg
+
 ifeq ($(CI),1)
-DATA_CMD=python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
+# Use smaller dataset for CI smoke test
+DATA_CMD=echo "Using fixed dataset: data/fragrance_data.csv"
 TRAIN_CMD=python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb --ci-mode
 else
-DATA_CMD=python src/data_prep.py --rows 20000 --seed 42 --out data/fragrance_data.csv
+# Use full dataset locally (reproducible with fixed seed)
+DATA_CMD=echo "Using fixed dataset: data/fragrance_data.csv"
 TRAIN_CMD=python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
 endif
 

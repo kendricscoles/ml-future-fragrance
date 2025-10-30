@@ -130,10 +130,10 @@ python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/fi
 ```bash
 docker build -t fragrance-ml:latest .
 docker run --rm -v "$PWD":/app -w /app fragrance-ml:latest make run-all
-
+```
 
 > **Hinweis:** Der Container führt `make run-all` aus und schreibt alle Artefakte in `artifacts/` sowie alle Auswertungen/Plots in `reports/` (inkl. `reports/figures/`).
-```
+
 ---
 
 ## Run Modes
@@ -254,25 +254,6 @@ Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen 
 
 (Siehe `reports/figures/` für alle PNG-Dateien.)
 
----
-
-## Reproduzierbarkeit
-
-- Abhängigkeiten: `requirements.txt`  
-- Automatisierte Tests: `.github/workflows/ci.yml` (GitHub Actions)  
-- Alle Ergebnisse sind vollständig reproduzierbar, sofern die Skripte in der angegebenen Reihenfolge ausgeführt werden.
-
----
-
-
-### Continuous Integration
-Dieses Repository führt bei jedem Push eine automatisierte **Smoke-Test-Pipeline** aus.  
-Der Workflow installiert alle Abhängigkeiten, generiert **synthetische Daten**, trainiert das Modell und bewertet die Performance **End-to-End**.
-
-Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
-
----
-
 ### Fairness – Altersgruppenanalyse
 
 ```md
@@ -290,13 +271,22 @@ Die Balkengrafik vergleicht drei Kennzahlen zwischen Altersgruppen:
 Das Modell zeigt leicht höhere TPR- und PPV-Werte in den Altersgruppen **35–44** und **25–34** (marginal bessere Erkennung/Präzision).  
 Die Unterschiede bleiben klein (**Gap < 0.05**) und gelten im Marketing-Kontext als unkritisch.  
 
-**Dateien:**  
-- `reports/fairness_age_group.csv`  
-- `reports/figures/fairness_age.png`
+---
 
-**Dateien:**  
-- `reports/fairness_age_group.csv`  
-- `reports/figures/fairness_age.png`
+## Reproduzierbarkeit
+
+- Abhängigkeiten: `requirements.txt`  
+- Automatisierte Tests: `.github/workflows/ci.yml` (GitHub Actions)  
+- Alle Ergebnisse sind vollständig reproduzierbar, sofern die Skripte in der angegebenen Reihenfolge ausgeführt werden.
+
+---
+
+
+### Continuous Integration
+Dieses Repository führt bei jedem Push eine automatisierte **Smoke-Test-Pipeline** aus.  
+Der Workflow installiert alle Abhängigkeiten, generiert **synthetische Daten**, trainiert das Modell und bewertet die Performance **End-to-End**.
+
+Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
   
 ---
 
@@ -309,7 +299,8 @@ Alle Resultate dienen ausschliesslich Demonstrations- und Lehrzwecken und enthal
 
 ## Lessons Learned / Reflexion
 
-Während der Projektarbeit konnte ich wertvolle Erfahrungen im Umgang mit synthetischen Daten und im Aufbau reproduzierbarer Machine‑Learning‑Pipelines sammeln. Die Kombination aus XGBoost und durchdachtem Feature Engineering lieferte robuste Ergebnisse und verdeutlichte die Bedeutung von Metriken wie PR‑AUC und Lift für unausgeglichene Klassifikationsprobleme. Durch den Einsatz von SHAP‑Analysen wurden zudem Transparenz und Interpretierbarkeit gewährleistet. Die Fairness‑Analyse zeigte, dass das Modell in den betrachteten Altersgruppen keine kritischen Gaps aufweist, was für den Einsatz im Marketing essenziell ist. Für die Zukunft sehe ich Verbesserungspotenzial in einer segmentierten Hyperparameter‑Optimierung, der Evaluation weiterer Modelle und einer tieferen A/B‑Test‑Einbettung, um die operativen Entscheidungen noch stärker zu untermauern.
+Im Verlauf dieses Projekts habe ich gelernt, wie wichtig eine saubere Datenbasis und reproducible Workflows sind. Die Kombination aus XGBoost und sorgfältigem Feature Engineering erwies sich als leistungsstark für das Propensity‑Scoring; gleichzeitig zeigte sich, dass Metriken wie PR‑AUC und Lift unverzichtbar für Klassifikationsprobleme mit starker Klassen‑Imbalance sind. SHAP‑Analysen ermöglichten Einsichten in die wichtigsten Treiber des Modells und erhöhten die Transparenz. Die Fairness‑Analyse ergab keine signifikanten Alters‑Biases; dies bestätigte, dass das Modell marketing‑tauglich ist. Für künftige Projekte plane ich eine segmentierte Hyperparameter‑Optimierung, den Vergleich mit alternativen Modellen sowie die Durchführung von A/B‑Tests, um die Modelleinschätzungen noch stärker an realen Kampagnen zu messen.
+
 ---
 
 © 2025 Kendric Scoles – BSc Business AI (FHNW Olten) | Modul Machine Learning | Projekt „Future of Fragrance – Propensity Modeling“

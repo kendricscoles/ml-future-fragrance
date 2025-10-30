@@ -48,14 +48,14 @@ reports/
 ├── lift_curve.png
 ├── pr_curve.png
 ├── roc_curve.png
-├── shap_dependance_top.png
+├── shap_dependence_top.png
 ├── shap_summary_bar.png
 └── shap_summary_beeswarm.png
 
 slides/
 
 src/
-├── init.py
+├── __init__.py
 ├── config.py
 ├── data_prep.py
 ├── evaluate.py
@@ -71,7 +71,7 @@ src/
 └── train_tune.py
 
 tests/
-├── init.py
+├── __init__.py
 ├── conftest.py
 ├── test_data_prep.py
 └── test_metrics.py

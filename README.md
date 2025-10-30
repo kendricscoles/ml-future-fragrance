@@ -3,11 +3,11 @@ Kendric Scoles, Bachelor Business AI, FHNW-Olten
 
 ![CI](https://github.com/kendricscoles/ml-future-fragrance/actions/workflows/ci.yml/badge.svg)
 
-## Projektbeschreibung
+--
 
-Dieses Projekt wurde im Rahmen des Moduls *Machine Learning* im Studiengang *Business Artificial Intelligence* an der FHNW entwickelt.  
-Ziel ist es, die Kaufwahrscheinlichkeit (Propensity) für Parfümprodukte auf Basis synthetischer E-Commerce-Daten zu prognostizieren.  
-Das Projekt zeigt, wie Machine Learning im Marketing eingesetzt werden kann, um potenzielle Käufer zu identifizieren und Kampagnen effizienter zu gestalten.
+## Zusammenfassung
+
+Dieses Projekt behandelt die Prognose der Kaufwahrscheinlichkeit von Parfümprodukten anhand synthetischer E‑Commerce‑Daten. Es beschreibt die vollständige Pipeline von der Datengenerierung über die Modellierung mit XGBoost und Preprocessing‑Schritten bis zur Evaluation mittels ROC‑AUC, PR‑AUC und Lift‑Kurven. Der Fokus liegt auf der strategischen Kampagnenplanung im Marketing, wobei das Modell potenzielle Käufer:innen identifiziert und so eine effizientere Zielgruppenansprache ermöglicht. Die Ergebnisse zeigen eine AUC von ca. 0.90, einen PR‑AUC von rund 0.85 und einen Lift@10 von etwa 4×, ergänzt durch Interpretationsmethoden wie SHAP sowie eine Fairness‑Analyse nach Altersgruppen.
 
 ---
 
@@ -305,6 +305,11 @@ Die Unterschiede bleiben klein (**Gap < 0.05**) und gelten im Marketing-Kontext 
 Dieses Projekt verwendet ausschliesslich synthetische Daten und enthält keine echten Kundendaten.  
 Alle Resultate dienen ausschliesslich Demonstrations- und Lehrzwecken und enthalten keine personenbezogenen Informationen.
 
+---
+
+## Lessons Learned / Reflexion
+
+Während der Projektarbeit konnte ich wertvolle Erfahrungen im Umgang mit synthetischen Daten und im Aufbau reproduzierbarer Machine‑Learning‑Pipelines sammeln. Die Kombination aus XGBoost und durchdachtem Feature Engineering lieferte robuste Ergebnisse und verdeutlichte die Bedeutung von Metriken wie PR‑AUC und Lift für unausgeglichene Klassifikationsprobleme. Durch den Einsatz von SHAP‑Analysen wurden zudem Transparenz und Interpretierbarkeit gewährleistet. Die Fairness‑Analyse zeigte, dass das Modell in den betrachteten Altersgruppen keine kritischen Gaps aufweist, was für den Einsatz im Marketing essenziell ist. Für die Zukunft sehe ich Verbesserungspotenzial in einer segmentierten Hyperparameter‑Optimierung, der Evaluation weiterer Modelle und einer tieferen A/B‑Test‑Einbettung, um die operativen Entscheidungen noch stärker zu untermauern.
 ---
 
 © 2025 Kendric Scoles – BSc Business AI (FHNW Olten) | Modul Machine Learning | Projekt „Future of Fragrance – Propensity Modeling“

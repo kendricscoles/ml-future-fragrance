@@ -14,4 +14,5 @@ run-all:
 	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions_test.csv --index artifacts/test_index.csv
 	python src/evaluate.py --pred artifacts/predictions_test.csv --data data/fragrance_data.csv --outdir reports
 	python src/generate_pngs.py --pred artifacts/predictions_test.csv --outdir reports/figures
+	python src/shap_analysis.py
 	python src/fairness_eval.py --data data/fragrance_data.csv --pred artifacts/predictions_test.csv --outdir reports

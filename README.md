@@ -1,4 +1,5 @@
 # Future of Fragrance — Propensity Modeling (FHNW Machine Learning Projekt)
+Kendric Scoles, Bachelor Business AI, FHNW-Olten
 
 ![CI](https://github.com/kendricscoles/ml-future-fragrance/actions/workflows/ci.yml/badge.svg)
 

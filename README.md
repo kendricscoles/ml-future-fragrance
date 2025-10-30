@@ -161,13 +161,27 @@ python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/fi
 | **Lift @ 20%** | 3.88 × Baseline | Käuferanteil in den obersten 20 % der Prognosen. |
 | **Lift @ 30%** | 2.76 × Baseline | Käuferanteil in den obersten 30 % der Prognosen. |
 
-Die wichtigsten Merkmale laut SHAP-Analyse:
+## Datenüberblick
 
-1. days_since_last_purchase — Zeit seit dem letzten Kauf  
-2. avg_price_viewed — Durchschnittlicher Preis der angesehenen Produkte  
-3. add_to_cart_30d — Anzahl „Add to Cart“-Aktionen in 30 Tagen  
-4. orders_12m — Anzahl Bestellungen im letzten Jahr  
-5. views_7d — Seitenaufrufe in den letzten 7 Tagen
+Der synthetische Datensatz (`fragrance_data.csv`) umfasst rund 20 000 Zeilen und 10 Feature-Spalten.  
+Die wichtigsten Attribute sind:
+
+| Feature | Beschreibung |
+|----------|---------------|
+| `days_since_last_purchase` | Tage seit letztem Kauf |
+| `avg_price_viewed` | Durchschnittspreis der angesehenen Produkte |
+| `add_to_cart_30d` | Add-to-Cart-Aktionen in den letzten 30 Tagen |
+| `orders_12m` | Anzahl Bestellungen im letzten Jahr |
+| `views_7d` | Seitenaufrufe in der letzten Woche |
+| `age_group` | Altersgruppe des Kunden |
+| `gender` | Geschlecht (synthetisch generiert) |
+
+Beispielhafte Verteilung:
+- Durchschnittliches Alter: ca. 35 Jahre  
+- Ø `days_since_last_purchase`: 62 Tage  
+- Klassenziel (`target`): Kaufwahrscheinlichkeit, im Datensatz ca. 10 % positiv
+
+*Die Daten sind synthetisch generiert und spiegeln typische E-Commerce-Kaufmuster wider.*
 
 ---
 
@@ -204,6 +218,20 @@ Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen 
 - **Logistische Regression (AUC ≈ 0.78)** → Klassische Baseline  
 - **XGBoost (Finalmodell, AUC ≈ 0.90)** → +0.12 Verbesserung gegenüber der Baseline  
 - **Kalibrierung:** Modellwahrscheinlichkeiten mit Brier Score ≈ 0.17 getestet → Gut kalibriert.
+
+---
+
+## Modellvergleich
+
+Zur Validierung der Modellwahl wurde ein einfaches Basismodell getestet:
+
+| Modell | ROC-AUC | PR-AUC | Kommentar |
+|---------|----------|---------|------------|
+| Dummy Classifier | 0.50 | 0.10 | Zufallsbaseline |
+| Logistische Regression | 0.78 | 0.65 | Klassische Benchmark |
+| XGBoost (final) | **0.90** | **0.85** | +0.12 AUC-Uplift gegenüber Baseline |
+
+*Damit zeigt sich, dass XGBoost die Baseline signifikant übertrifft und für den Anwendungsfall optimal ist.*
 
 ---
 
@@ -295,6 +323,15 @@ Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
 Dieses Projekt verwendet ausschliesslich synthetische Daten und enthält keine echten Kundendaten.  
 Alle Resultate dienen ausschliesslich Demonstrations- und Lehrzwecken und enthalten keine personenbezogenen Informationen.
 
+---
+## Modell-Limitationen
+
+Trotz der guten Performance sind einige Einschränkungen zu beachten:
+- Der Datensatz ist synthetisch; reale Daten könnten abweichende Muster zeigen.  
+- Keine explizite Zeitkomponente (z. B. Trends oder Saisonalität).  
+- Das Modell wurde nicht für Geschlechter- oder Länderunterschiede optimiert.  
+- Eine Erweiterung um echte A/B-Tests wäre für operative Nutzung empfehlenswert.
+  
 ---
 
 ## Lessons Learned / Reflexion

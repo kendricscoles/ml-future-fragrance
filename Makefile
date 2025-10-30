@@ -1,15 +1,12 @@
 .PHONY: run-all run-all-shap clean
 
-# Always enforce deterministic behavior
 export PYTHONHASHSEED=42
 export MPLBACKEND=Agg
 
 ifeq ($(CI),1)
-# Use smaller dataset for CI smoke test
 DATA_CMD=echo "Using fixed dataset: data/fragrance_data.csv"
 TRAIN_CMD=python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb --ci-mode
 else
-# Use full dataset locally (reproducible with fixed seed)
 DATA_CMD=echo "Using fixed dataset: data/fragrance_data.csv"
 TRAIN_CMD=python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
 endif

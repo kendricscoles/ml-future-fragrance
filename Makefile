@@ -14,18 +14,18 @@ endif
 run-all:
 	$(DATA_CMD)
 	$(TRAIN_CMD)
-	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions_test.csv --index artifacts/test_index.csv
-	python src/evaluate.py --pred artifacts/predictions_test.csv --data data/fragrance_data.csv --outdir reports
-	python src/generate_pngs.py --pred artifacts/predictions_test.csv --outdir reports/figures
-	python src/fairness_eval.py --data data/fragrance_data.csv --pred artifacts/predictions_test.csv --outdir reports
+	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions.csv --index artifacts/test_index.csv
+	python src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
+	python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/figures
+	python src/fairness_eval.py --data data/fragrance_data.csv --pred artifacts/predictions.csv --outdir reports
 
 run-all-shap:
 	$(DATA_CMD)
 	$(TRAIN_CMD)
-	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions_test.csv --index artifacts/test_index.csv
-	python src/evaluate.py --pred artifacts/predictions_test.csv --data data/fragrance_data.csv --outdir reports
-	python src/generate_pngs.py --pred artifacts/predictions_test.csv --outdir reports/figures --with-shap
-	python src/fairness_eval.py --data data/fragrance_data.csv --pred artifacts/predictions_test.csv --outdir reports
+	python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions.csv --index artifacts/test_index.csv
+	python src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
+	python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/figures --with-shap
+	python src/fairness_eval.py --data data/fragrance_data.csv --pred artifacts/predictions.csv --outdir reports
 
 clean:
 	rm -f artifacts/*.csv artifacts/*.pkl artifacts/*.json

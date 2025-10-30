@@ -226,15 +226,23 @@ Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
 
 ---
 
-### Fairness
-Bewertet werden Selection Rate, TPR und PPV je Altersgruppe bei einem operativen Cutoff (Top 10 %). Wir berichten Gaps:
-- reports/fairness_age_group.csv
-- reports/figures/fairness_age.png
-Interpretation: Gaps < 0.05 gelten in diesem Setting als unkritisch.
+### Fairness – Altersgruppenanalyse
 
-- **Fairness figure**
-  <img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/d4f39b8d-44f4-4171-804f-f040be2118d4" />
+<img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/d4f39b8d-44f4-4171-804f-f040be2118d4" />
 
+Die Balkengrafik vergleicht drei Kennzahlen zwischen Altersgruppen:  
+- **Selection Rate (blau):** Anteil der Personen je Gruppe, die vom Modell in den Top-10 % Score-Segment fallen.  
+- **True Positive Rate (orange):** Anteil der tatsächlichen Käufer:innen, die vom Modell korrekt erkannt wurden.  
+- **Positive Predictive Value (grün):** Präzision der Modellvorhersagen pro Gruppe.  
+
+**Interpretation:**  
+Das Modell zeigt leicht höhere TPR- und PPV-Werte in den Altersgruppen **35-44** und **25-34**, was auf eine marginal bessere Erkennung und Präzision in diesen Segmenten hinweist.  
+Die Unterschiede zwischen Gruppen bleiben jedoch klein (**Gap < 0.05**) und gelten im Marketing-Kontext als unkritisch.  
+Damit erfüllt das Modell eine **faire Zielgruppenansprache** ohne deutliche Altersverzerrungen.
+
+**Dateien:**  
+- `reports/fairness_age_group.csv`  
+- `reports/figures/fairness_age.png`
   
 ---
 

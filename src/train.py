@@ -136,7 +136,10 @@ def main():
         pre = make_preprocessor(X)
     clf = choose_estimator(args.estimator, ci_mode=args.ci_mode)
     model = Pipeline([("pre", pre), ("clf", clf)])
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
+    idx = np.arange(len(X))
+    idx_train, idx_test = train_test_split(idx, test_size=0.25, random_state=42, stratify=y)
+    X_train, X_test = X.iloc[idx_train], X.iloc[idx_test]
+    y_train, y_test = y[idx_train], y[idx_test]
     maybe_set_scale_pos_weight(model, y_train)
     model.fit(X_train, y_train)
     if hasattr(model, "predict_proba"):
@@ -154,9 +157,12 @@ def main():
     metrics_path = out_dir / "metrics.json"
     with metrics_path.open("w") as f:
         json.dump(metrics, f, indent=2)
+    test_idx_path = out_dir / "test_index.csv"
+    pd.DataFrame({"row_id": idx_test}).to_csv(test_idx_path, index=False)
     print(json.dumps(metrics, indent=2))
     print(f"saved_model={model_path}")
     print(f"saved_metrics={metrics_path}")
+    print(f"saved_test_index={test_idx_path}")
 
 if __name__ == "__main__":
     main()

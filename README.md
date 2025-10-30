@@ -96,14 +96,14 @@ python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
 # Modell trainieren
 python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
 
-# Vorhersagen erzeugen
-python src/make_predictions.py
+# Vorhersagen erzeugen (nutze dasselbe Namensschema wie unten)
+python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions.csv
 
 # Evaluation und Reports
 python src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
 
-# PNG-Plots erzeugen (ROC, PR, Lift, SHAP)
-python src/generate_pngs.py
+# PNG-Plots (ROC, PR, Lift, SHAP)
+python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/figures
 
 ---
 

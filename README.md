@@ -111,9 +111,12 @@ python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/fi
 docker build -t fragrance-ml:latest .
 docker run --rm -v "$PWD":/app -w /app fragrance-ml:latest make run-all
 
+> **Hinweis:** Der Container führt `make run-all` aus und schreibt alle Artefakte in `artifacts/` sowie alle Auswertungen/Plots in `reports/` (inkl. `reports/figures/`).
 ---
 
 ## Run Modes
+
+> **CI-Hinweis:** Die GitHub-Actions-Pipeline (`.github/workflows/ci.yml`) verwendet dieselben Befehle als Smoke-Test mit `--rows 800`.
 
 ### Local (full)
 ```bash
@@ -151,14 +154,16 @@ Die wichtigsten Merkmale laut SHAP-Analyse:
 ## Metrics JSON (Schema + Example)
 ```json
 {
-  "test": {
+  "results": {
     "auc": 0.8997,
     "pr_auc": 0.8547,
-    "lift_at_10": 4.12
+    "lift_at_10": 4.12,
+    "lift_at_20": 3.88,
+    "lift_at_30": 2.76,
+    "brier_score": 0.17
   },
   "train_config": {
     "estimator": "xgb",
-    "n_estimators": 600,
     "random_state": 42
   }
 }
@@ -188,7 +193,7 @@ Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen 
   <img width="1024" height="768" alt="pr_curve" src="https://github.com/user-attachments/assets/08871840-44dd-4ff0-84c1-efc601359074" />
 
 - **Lift-Kurve** – Visualisiert die Effektivität der Zielgruppenansprache  
-  <img width="1024" height="768" alt="lift_curve" src="https://github.com/user-attachments/assets/21dae666-f2fd-4cae-a3c7-64fb508d2409" />
+  <img width="1024" height="768" alt="lift_curve" src="[https://github.com/user-attachments/assets/21dae666-f2fd-4cae-a3c7-64fb508d2409](https://github.com/kendricscoles/ml-future-fragrance/blob/main/reports/figures/lift_curve.png?raw=true)" />
 
 - **SHAP Beeswarm Plot** – Zeigt den Einfluss einzelner Features auf Modellvorhersagen  
   <img width="1559" height="1640" alt="shap_summary_beeswarm" src="https://github.com/user-attachments/assets/9892eeca-588e-4f3c-a016-9c856a73a8d5" />
@@ -225,6 +230,8 @@ Bewertet werden Selection Rate, TPR und PPV je Altersgruppe bei einem operativen
 - reports/fairness_age_group.csv
 - reports/figures/fairness_age.png
 Interpretation: Gaps < 0.05 gelten in diesem Setting als unkritisch.
+
+<img width="1024" height="768" alt="fairness_age" src="PASTE-RAW-URL-HERE" />
 
 ---
 

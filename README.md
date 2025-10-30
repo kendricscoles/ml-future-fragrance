@@ -106,6 +106,12 @@ python src/generate_pngs.py
 
 ---
 
+# docker
+docker build -t fragrance-ml:latest .
+docker run --rm -v "$PWD":/app -w /app fragrance-ml:latest make run-all
+
+---
+
 ## Run Modes
 
 ### Local (full)

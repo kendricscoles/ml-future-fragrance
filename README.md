@@ -96,13 +96,13 @@ python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
 # Modell trainieren
 python src/train.py --data data/fragrance_data.csv --out_dir artifacts --estimator xgb
 
-# Vorhersagen erzeugen (nutze dasselbe Namensschema wie unten)
+# Vorhersagen erzeugen
 python src/make_predictions.py --data data/fragrance_data.csv --model artifacts/champion_model.pkl --out artifacts/predictions.csv
 
 # Evaluation und Reports
 python src/evaluate.py --pred artifacts/predictions.csv --data data/fragrance_data.csv --outdir reports
 
-# PNG-Plots (ROC, PR, Lift, SHAP)
+# PNG-Plots erzeugen (ROC, PR, Lift, SHAP)
 python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/figures
 
 ---
@@ -236,9 +236,12 @@ Die Balkengrafik vergleicht drei Kennzahlen zwischen Altersgruppen:
 - **Positive Predictive Value (grün):** Präzision der Modellvorhersagen pro Gruppe.  
 
 **Interpretation:**  
-Das Modell zeigt leicht höhere TPR- und PPV-Werte in den Altersgruppen **35-44** und **25-34**, was auf eine marginal bessere Erkennung und Präzision in diesen Segmenten hinweist.  
-Die Unterschiede zwischen Gruppen bleiben jedoch klein (**Gap < 0.05**) und gelten im Marketing-Kontext als unkritisch.  
-Damit erfüllt das Modell eine **faire Zielgruppenansprache** ohne deutliche Altersverzerrungen.
+Das Modell zeigt leicht höhere TPR- und PPV-Werte in den Altersgruppen **35–44** und **25–34** (marginal bessere Erkennung/Präzision).  
+Die Unterschiede bleiben klein (**Gap < 0.05**) und gelten im Marketing-Kontext als unkritisch.  
+
+**Dateien:**  
+- `reports/fairness_age_group.csv`  
+- `reports/figures/fairness_age.png`
 
 **Dateien:**  
 - `reports/fairness_age_group.csv`  

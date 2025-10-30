@@ -1,6 +1,5 @@
-import os
+import argparse, json
 from pathlib import Path
-import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -25,18 +24,22 @@ def ppv(y_true, y_pred):
     return tp / max(1, pred_pos)
 
 def main():
-    data_path = Path("data/fragrance_data.csv")
-    pred_path = Path("artifacts/predictions.csv")
-    fig_dir = Path("reports/figures")
-    out_dir = Path("reports")
-    fig_dir.mkdir(parents=True, exist_ok=True)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default="data/fragrance_data.csv")
+    ap.add_argument("--pred", default="artifacts/predictions.csv")
+    ap.add_argument("--outdir", default="reports")
+    args = ap.parse_args()
 
-    df = pd.read_csv(data_path)
+    out_dir = Path(args.outdir)
+    fig_dir = out_dir / "figures"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    fig_dir.mkdir(parents=True, exist_ok=True)
+
+    df = pd.read_csv(args.data)
     if "row_id" not in df.columns:
         df.insert(0, "row_id", range(len(df)))
 
-    preds = pd.read_csv(pred_path)
+    preds = pd.read_csv(args.pred)
     if "row_id" not in preds.columns:
         preds.insert(0, "row_id", range(len(preds)))
     if "y_score" not in preds.columns and "y_proba" in preds.columns:
@@ -68,7 +71,9 @@ def main():
     sr_gap = float(out["selection_rate"].max() - out["selection_rate"].min())
     tpr_gap = float(out["tpr"].max() - out["tpr"].min())
     ppv_gap = float(out["ppv"].max() - out["ppv"].min())
-    out.to_csv(out_dir / "fairness_age_group.csv", index=False)
+
+    out_csv = out_dir / "fairness_age_group.csv"
+    out.to_csv(out_csv, index=False)
 
     ax = out.set_index("age_group")[["selection_rate", "tpr", "ppv"]].plot(kind="bar")
     fig = ax.get_figure()
@@ -91,6 +96,9 @@ def main():
     })
     with mpath.open("w") as f:
         json.dump(m, f, indent=2)
+
+    print(f"Wrote {out_csv}")
+    print(f"Fairness gaps: selection_rate_gap={sr_gap:.3f}, tpr_gap={tpr_gap:.3f}, ppv_gap={ppv_gap:.3f}")
 
 if __name__ == "__main__":
     main()

@@ -250,3 +250,7 @@ Damit erfüllt das Modell eine **faire Zielgruppenansprache** ohne deutliche Alt
 
 Dieses Projekt verwendet ausschliesslich synthetische Daten und enthält keine echten Kundendaten.  
 Alle Resultate dienen ausschliesslich Demonstrations- und Lehrzwecken und enthalten keine personenbezogenen Informationen.
+
+---
+
+© 2025 Kendric Scoles – BSc Business AI (FHNW Olten) | Modul Machine Learning | Projekt „Future of Fragrance – Propensity Modeling“

@@ -91,7 +91,7 @@ pip install -r requirements-dev.txt
 pre-commit install
 pre-commit run --all-files
 
-# Daten generieren
+# Daten generieren (kleiner Smoke-Test für CI)
 python src/data_prep.py --rows 800 --seed 42 --out data/fragrance_data.csv
 
 # Modell trainieren
@@ -109,10 +109,14 @@ python src/generate_pngs.py --pred artifacts/predictions.csv --outdir reports/fi
 ---
 
 # docker
+
+```bash
 docker build -t fragrance-ml:latest .
 docker run --rm -v "$PWD":/app -w /app fragrance-ml:latest make run-all
 
+
 > **Hinweis:** Der Container führt `make run-all` aus und schreibt alle Artefakte in `artifacts/` sowie alle Auswertungen/Plots in `reports/` (inkl. `reports/figures/`).
+```
 ---
 
 ## Run Modes
@@ -150,8 +154,9 @@ Die wichtigsten Merkmale laut SHAP-Analyse:
 
 ---
 
-### Metrics JSON schema
 ```md
+### Metrics JSON schema
+
 ## Metrics JSON (Schema + Example)
 ```json
 {
@@ -187,23 +192,47 @@ Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen 
 
 ## Visualisierungen
 
-- **ROC-Kurve** – Zeigt das Verhältnis von True-Positive-Rate zu False-Positive-Rate  
+- **ROC-Kurve** – Zeigt das Verhältnis von True-Positive-Rate zu False-Positive-Rate
+  ```md
+  ![roc_curve](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/roc_curve.png)
+  ```
+  
   <img width="1024" height="768" alt="roc_curve" src="https://github.com/user-attachments/assets/4b3f0b76-e9a4-4492-9fd4-bd5b662589d5" />
 
-- **Precision-Recall-Kurve** – Zeigt die Genauigkeit (Precision) im Verhältnis zur Abdeckung (Recall)  
+- **Precision-Recall-Kurve** – Zeigt die Genauigkeit (Precision) im Verhältnis zur Abdeckung (Recall)
+  ```md
+   ![pr_curve](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/pr_curve.png)
+  ```
+  
   <img width="1024" height="768" alt="pr_curve" src="https://github.com/user-attachments/assets/08871840-44dd-4ff0-84c1-efc601359074" />
 
-- **Lift-Kurve** – Visualisiert die Effektivität der Zielgruppenansprache  
+- **Lift-Kurve** – Visualisiert die Effektivität der Zielgruppenansprache
+  ```md
+  ![lift_curve](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/lift_curve.png)
+  ```
+  
   <img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/d2ceed5f-c779-4d4e-bd8c-58e7162dd4a4" />
 
 
-- **SHAP Beeswarm Plot** – Zeigt den Einfluss einzelner Features auf Modellvorhersagen  
+- **SHAP Beeswarm Plot** – Zeigt den Einfluss einzelner Features auf Modellvorhersagen
+  ```md
+  ![shap_summary_beeswarm](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/shap_summary_beeswarm.png)
+  ```
+  
   <img width="1559" height="1640" alt="shap_summary_beeswarm" src="https://github.com/user-attachments/assets/9892eeca-588e-4f3c-a016-9c856a73a8d5" />
 
-- **SHAP Bar Plot** – Rangiert die wichtigsten Einflussfaktoren nach Gesamtbedeutung  
+- **SHAP Bar Plot** – Rangiert die wichtigsten Einflussfaktoren nach Gesamtbedeutung
+  ```md
+  ![shap_summary_bar](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/shap_summary_bar.png)
+  ```
+  
   <img width="1580" height="1640" alt="shap_summary_bar" src="https://github.com/user-attachments/assets/cf9601e0-27c7-490c-b086-2f0312043fa5" />
 
-- **SHAP Dependence Plot** – Zeigt den Effekt eines spezifischen Merkmals auf die Modellvorhersage  
+- **SHAP Dependence Plot** – Zeigt den Effekt eines spezifischen Merkmals auf die Modellvorhersage
+  ```md
+  ![shap_dependence_top](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/shap_dependence_top.png)
+  ```
+  
   <img width="1179" height="980" alt="shap_dependence_top" src="https://github.com/user-attachments/assets/36eba174-4c76-4811-bb03-d5fbe8b9e488" />
 
 (Siehe `reports/figures/` für alle PNG-Dateien.)
@@ -228,6 +257,10 @@ Siehe die Workflow-Datei: [`ci.yml`](.github/workflows/ci.yml)
 ---
 
 ### Fairness – Altersgruppenanalyse
+
+```md
+![fairness_age](https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/fairness_age.png)
+```
 
 <img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/d4f39b8d-44f4-4171-804f-f040be2118d4" />
 

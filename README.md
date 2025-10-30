@@ -44,7 +44,8 @@ reports/                # Evaluation results & figures
     ├── roc_curve.png
     ├── shap_dependence_top.png
     ├── shap_summary_bar.png
-    └── shap_summary_beeswarm.png
+    ├── shap_summary_beeswarm.png
+    └── reports/figures/fairness_age.png
 slides/                 
 src/                    # Source code for data prep, training, evaluation
 ├── __init__.py

@@ -27,8 +27,7 @@ def gains_by_decile(y_true, y_proba):
     df = pd.DataFrame({"y_true": y_true, "y_proba": y_proba})
     df["rank"] = df["y_proba"].rank(method="first", ascending=False)
     df["decile"] = pd.qcut(df["rank"], 10, labels=False, duplicates="drop")
-    g = (df.groupby("decile", as_index=False)
-           .agg(positives=("y_true","sum"), count=("y_true","size")))
+    g = df.groupby("decile", as_index=False).agg(positives=("y_true","sum"), count=("y_true","size"))
     g["rate"] = g["positives"] / g["count"]
     g = g.sort_values("decile", ascending=False)
     g["cum_positives"] = g["positives"].cumsum()
@@ -67,11 +66,17 @@ def main(pred_path: Path, data_path: Path, outdir: Path):
     if "row_id" not in df.columns:
         df.insert(0, "row_id", range(len(df)))
 
+    base_cols = ["row_id", "bought_fragrance"]
+    has_age = "age" in df.columns
+    if has_age:
+        base_cols.append("age")
+    base = df[base_cols].copy()
+
+    merged = preds.merge(base, on="row_id", how="left")
+
     if "y_true" in preds.columns:
-        merged = preds.merge(df[["row_id","bought_fragrance","age"]], on="row_id", how="left")
         y_true = merged["y_true"].fillna(merged["bought_fragrance"]).astype(int).to_numpy()
     else:
-        merged = preds.merge(df[["row_id","bought_fragrance","age"]], on="row_id", how="left")
         y_true = merged["bought_fragrance"].astype(int).to_numpy()
 
     y_proba = merged["y_proba"].astype(float).to_numpy()
@@ -84,15 +89,15 @@ def main(pred_path: Path, data_path: Path, outdir: Path):
     g = gains_by_decile(y_true, y_proba)
     g.to_csv(outdir / "lift_by_decile.csv", index=False)
 
-    if "age" in merged.columns:
+    if has_age:
         bins = [0,25,35,50,200]
         labels = ["<=25","26-35","36-50","50+"]
         merged["age_group"] = pd.cut(merged["age"], bins=bins, labels=labels, right=True, include_lowest=True)
-        thresh = np.quantile(y_proba, 0.9)
+        thresh = float(np.quantile(y_proba, 0.9))
         y_pred = (y_proba >= thresh).astype(int)
         rows = []
         for gname, d in merged.groupby("age_group"):
-            if d.empty:
+            if len(d) == 0:
                 continue
             sel = (d["y_proba"] >= thresh).astype(int)
             rows.append({
@@ -103,8 +108,7 @@ def main(pred_path: Path, data_path: Path, outdir: Path):
                 "ppv": ppv(d["bought_fragrance"], sel)
             })
         if rows:
-            fair = pd.DataFrame(rows)
-            fair.to_csv(outdir / "fairness_age_group.csv", index=False)
+            pd.DataFrame(rows).to_csv(outdir / "fairness_age_group.csv", index=False)
 
     summary = {
         "roc_auc": round(roc_auc, 4),

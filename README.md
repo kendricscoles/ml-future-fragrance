@@ -26,49 +26,66 @@ Das Projekt zeigt, wie Machine Learning im Marketing eingesetzt werden kann, um 
 
 ```
 
-.github/workflows/      # CI pipeline (smoke test on each push)
-artifacts/              # Placeholder model outputs (for grading)
+.github/
+└── workflows/
+└── ci.yml
+
+artifacts/
 ├── champion_model.pkl
 ├── metrics.json
-├── predictions.csv
-data/                   # Synthetic dataset
-├── fragrance_data.csv
-reports/                # Evaluation results & figures
+└── predictions.csv
+
+data/
+└── fragrance_data.csv
+
+reports/
 ├── fairness_age_group.csv
 ├── lift_by_decile.csv
 ├── metrics_summary.csv
 ├── shap_top_features.csv
 └── figures/
-    ├── lift_curve.png
-    ├── pr_curve.png
-    ├── roc_curve.png
-    ├── shap_dependence_top.png
-    ├── shap_summary_bar.png
-    ├── shap_summary_beeswarm.png
-    └── fairness_age.png
-slides/                 
-src/                    # Source code for data prep, training, evaluation
-├── __init__.py
+├── fairness_age.png
+├── lift_curve.png
+├── pr_curve.png
+├── roc_curve.png
+├── shap_dependance_top.png
+├── shap_summary_bar.png
+└── shap_summary_beeswarm.png
+
+slides/
+
+src/
+├── init.py
 ├── config.py
 ├── data_prep.py
 ├── evaluate.py
 ├── explain.py
 ├── export_targets.py
+├── fairness_eval.py
 ├── generate_pngs.py
 ├── make_predictions.py
 ├── metrics.py
 ├── score.py
-├── train_tune.py
-└── train.py
+├── shap_analysis.py
+├── train.py
+└── train_tune.py
+
 tests/
+├── init.py
 ├── conftest.py
 ├── test_data_prep.py
 └── test_metrics.py
-config.yaml             # Central configuration (seed, paths, model params)
-requirements.txt       
-Makefile              
-LICENSE               
-README.md              
+
+.dockerignore
+.gitignore
+Dockerfile
+LICENSE
+Makefile
+README.md
+config.yaml
+requirements-dev.txt
+requirements.txt
+            
 ```
 > **Hinweis:**  
 > Die Dateien in den Verzeichnissen `/artifacts` und `/reports/figures` sind **Beispiel-Platzhalter**, die die **Ausgabestruktur für die Bewertung** demonstrieren.

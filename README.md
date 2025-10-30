@@ -232,7 +232,8 @@ Bewertet werden Selection Rate, TPR und PPV je Altersgruppe bei einem operativen
 - reports/figures/fairness_age.png
 Interpretation: Gaps < 0.05 gelten in diesem Setting als unkritisch.
 
-<img width="1024" height="768" alt="fairness_age" src="PASTE-RAW-URL-HERE" />
+- **Fairness figure""
+  https://raw.githubusercontent.com/kendricscoles/ml-future-fragrance/main/reports/figures/fairness_age.png
 
 ---
 

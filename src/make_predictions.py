@@ -20,17 +20,18 @@ def main():
     p.add_argument("--model", default=str(Path(cfg.paths.out_dir) / "champion_model.pkl"))
     p.add_argument("--out", default=str(Path(cfg.paths.out_dir) / "predictions.csv"))
     p.add_argument("--target", default="bought_fragrance")
+    p.add_argument("--index", default="")  # optional: artifacts/test_index.csv
     args = p.parse_args()
 
-    data_path = Path(args.data)
-    model_path = Path(args.model)
-    out_path = Path(args.out)
-    target = args.target
-
-    df = pd.read_csv(data_path)
+    df = pd.read_csv(args.data)
     if "row_id" not in df.columns:
         df.insert(0, "row_id", range(len(df)))
 
+    if args.index:
+        idx = pd.read_csv(args.index)["row_id"].tolist()
+        df = df.iloc[idx].copy()
+
+    target = args.target
     if target in df.columns:
         y_true = df[target].astype(int).to_numpy()
         X = df.drop(columns=[target])
@@ -38,7 +39,7 @@ def main():
         y_true = None
         X = df.copy()
 
-    pipe = joblib.load(model_path)
+    pipe = joblib.load(args.model)
     if isinstance(pipe, Pipeline) and hasattr(pipe, "predict_proba"):
         y_score = pipe.predict_proba(X)[:, 1]
     elif isinstance(pipe, Pipeline) and hasattr(pipe, "decision_function"):
@@ -47,14 +48,12 @@ def main():
     else:
         y_score = pipe.predict(X)
 
-    cols = {"row_id": df["row_id"].values, "y_score": y_score}
+    out = pd.DataFrame({"row_id": df["row_id"].values, "y_score": y_score})
     if y_true is not None:
-        cols["y_true"] = y_true
-        cols["y_proba"] = y_score
-    out = pd.DataFrame(cols)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out.to_csv(out_path, index=False)
-    print(f"Wrote {out_path} with {len(out)} rows")
+        out["y_true"] = y_true
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    out.to_csv(args.out, index=False)
+    print(f"Wrote {args.out} with {len(out)} rows")
 
 if __name__ == "__main__":
     main()

@@ -193,7 +193,8 @@ Mit einem Budget, das nur den **Top 10 %** der vom Modell bewerteten Kund:innen 
   <img width="1024" height="768" alt="pr_curve" src="https://github.com/user-attachments/assets/08871840-44dd-4ff0-84c1-efc601359074" />
 
 - **Lift-Kurve** – Visualisiert die Effektivität der Zielgruppenansprache  
-  <img width="1024" height="768" alt="lift_curve" src="[https://github.com/user-attachments/assets/21dae666-f2fd-4cae-a3c7-64fb508d2409](https://github.com/kendricscoles/ml-future-fragrance/blob/main/reports/figures/lift_curve.png?raw=true)" />
+  <img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/d2ceed5f-c779-4d4e-bd8c-58e7162dd4a4" />
+
 
 - **SHAP Beeswarm Plot** – Zeigt den Einfluss einzelner Features auf Modellvorhersagen  
   <img width="1559" height="1640" alt="shap_summary_beeswarm" src="https://github.com/user-attachments/assets/9892eeca-588e-4f3c-a016-9c856a73a8d5" />

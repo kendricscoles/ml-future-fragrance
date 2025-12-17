@@ -41,9 +41,9 @@ docs/
 ├── echtheitserklarung.md   
 ├── ki_offenlegung.md       
 ├── methodologie.md   
-└── zusammenfassung.md           ← NEW (German)
+└── zusammenfassung.md         
 reports/
-├── baseline_comparison.csv      ←         
+├── baseline_comparison.csv          
 ├── fairness_age_group.csv
 ├── fairness_narrative.md       
 ├── lift_by_decile.csv

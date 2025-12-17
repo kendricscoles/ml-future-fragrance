@@ -1,0 +1,4 @@
+model,auc,pr_auc,lift_at_10,lift_at_20
+Champion,0.4771,0.2651,0.8333,0.9375
+Random,0.6072,0.3526,1.875,1.4583
+Heuristic (views_7d),0.5606,0.2785,1.0417,1.1458

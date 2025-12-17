@@ -28,60 +28,65 @@ Dieses Projekt behandelt die Prognose der Kaufwahrscheinlichkeit von Parfümprod
 
 .github/
 └── workflows/
-└── ci.yml
-
+    └── ci.yml
 artifacts/
 ├── champion_model.pkl
+├── cv_results.json
 ├── metrics.json
-└── predictions.csv
-
+├── predictions.csv
+└── test_index.csv
 data/
 └── fragrance_data.csv
-
+docs/                           
+├── echtheitserklarung.md   
+├── ki_offenlegung.md       
+├── methodologie.md   
+└── zusammenfassung.md           ← NEW (German)
 reports/
+├── baseline_comparison.csv      ←         
 ├── fairness_age_group.csv
+├── fairness_narrative.md       
 ├── lift_by_decile.csv
 ├── metrics_summary.csv
 ├── shap_top_features.csv
 └── figures/
-├── fairness_age.png
-├── lift_curve.png
-├── pr_curve.png
-├── roc_curve.png
-├── shap_dependence_top.png
-├── shap_summary_bar.png
-└── shap_summary_beeswarm.png
-
+    ├── baseline_comparison.png 
+    ├── fairness_age.png
+    ├── fairness_tradeoff.png    
+    ├── lift_curve.png
+    ├── pr_curve.png
+    ├── roc_curve.png
+    ├── shap_dependence_top.png
+    ├── shap_summary_bar.png
+    └── shap_summary_beeswarm.png
 slides/
-
 src/
 ├── __init__.py
+├── baseline_models.py      
 ├── config.py
-├── data_prep.py
-├── evaluate.py
+├── data_prep.py            
+├── evaluate.py            
 ├── explain.py
 ├── export_targets.py
-├── fairness_eval.py
+├── fairness_eval.py        
 ├── generate_pngs.py
-├── make_predictions.py
-├── metrics.py
+├── make_predictions.py     
+├── metrics.py             
 ├── score.py
 ├── shap_analysis.py
-├── train.py
+├── train.py                 
 └── train_tune.py
-
 tests/
 ├── __init__.py
 ├── conftest.py
 ├── test_data_prep.py
 └── test_metrics.py
-
 .dockerignore
 .gitignore
 Dockerfile
 LICENSE
 Makefile
-README.md
+README.md   
 config.yaml
 requirements-dev.txt
 requirements.txt

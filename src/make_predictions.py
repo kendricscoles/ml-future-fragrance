@@ -2,6 +2,7 @@ import os, sys
 _here = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _here)
 sys.path.insert(0, os.path.dirname(_here))
+
 import argparse
 from pathlib import Path
 import joblib
@@ -9,10 +10,12 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
+
 from src.config import load_cfg, ensure_dirs
 
 cfg = load_cfg()
 ensure_dirs(cfg)
+
 
 def main():
     p = argparse.ArgumentParser()
@@ -31,30 +34,31 @@ def main():
         idx = pd.read_csv(args.index)["row_id"].tolist()
         df = df.iloc[idx].copy()
 
-    target = args.target
-    if target in df.columns:
-        y_true = df[target].astype(int).to_numpy()
-        X = df.drop(columns=[target])
+    if args.target in df.columns:
+        y = df[args.target].astype(int).values
+        X = df.drop(columns=[args.target])
     else:
-        y_true = None
+        y = None
         X = df.copy()
 
     pipe = joblib.load(args.model)
+    
     if isinstance(pipe, Pipeline) and hasattr(pipe, "predict_proba"):
-        y_score = pipe.predict_proba(X)[:, 1]
+        scores = pipe.predict_proba(X)[:, 1]
     elif isinstance(pipe, Pipeline) and hasattr(pipe, "decision_function"):
         raw = pipe.decision_function(X)
-        y_score = MinMaxScaler().fit_transform(np.asarray(raw).reshape(-1, 1)).ravel()
+        scores = MinMaxScaler().fit_transform(raw.reshape(-1, 1)).ravel()
     else:
-        y_score = pipe.predict(X)
+        scores = pipe.predict(X)
 
-    out = pd.DataFrame({"row_id": df["row_id"].values, "y_score": y_score})
-    out["y_proba"] = out["y_score"]
-    if y_true is not None:
-        out["y_true"] = y_true
+    out = pd.DataFrame({"row_id": df["row_id"].values, "y_score": scores, "y_proba": scores})
+    if y is not None:
+        out["y_true"] = y
+    
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(args.out, index=False)
     print(f"Wrote {args.out} with {len(out)} rows")
+
 
 if __name__ == "__main__":
     main()

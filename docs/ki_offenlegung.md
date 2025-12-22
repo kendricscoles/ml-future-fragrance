@@ -4,7 +4,7 @@
 **Autor**: Kendric Scoles  
 **Studiengang**: Bachelor Business AI, FHNW Olten  
 **Modul**: Machine Learning  
-**Datum**: Dezember 2024
+**Datum**: Dezember 2025
 
 ---
 
